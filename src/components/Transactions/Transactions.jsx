@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { Transaction } from './Transaction';
+
 import { TransactionsTable } from './Transactions.styled';
-export const TransactionsHistory = ({ transactions }) => {
+export const TransactionsHistory = ({ items }) => {
   return (
     <TransactionsTable>
       <thead>
@@ -13,20 +13,24 @@ export const TransactionsHistory = ({ transactions }) => {
       </thead>
 
       <tbody>
-        {transactions.map(({ id, type, amount, currency }) => {
-          return (
-            <Transaction
-              key={id}
-              type={type}
-              amount={amount}
-              currency={currency}
-            />
-          );
-        })}
+        {items.map(({ id, type, amount, currency }) => (
+          <tr key={id}>
+            <td>{type}</td>
+            <td>{amount}</td>
+            <td>{currency}</td>
+          </tr>
+        ))}
       </tbody>
     </TransactionsTable>
   );
 };
 TransactionsHistory.propTypes = {
-  transactions: PropTypes.array.isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      amount: PropTypes.string.isRequired,
+      currency: PropTypes.string.isRequired,
+    })
+  ),
 };
